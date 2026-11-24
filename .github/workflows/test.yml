@@ -33,6 +33,14 @@ jobs:
         with:
           version: 'snapshot'
 
+      - name: Cache Elisp dependencies
+        uses: actions/cache@v4
+        with:
+          path: .cask
+          key: ${{ runner.os }}-cask-${{ matrix.emacs-version }}-${{ hashFiles('Cask') }}
+          restore-keys: |
+            ${{ runner.os }}-cask-${{ matrix.emacs-version }}-
+
       - name: Install server build dependencies
         run: |
           sudo apt-get update
@@ -67,6 +75,14 @@ jobs:
         uses: conao3/setup-cask@master
         with:
           version: 'snapshot'
+
+      - name: Cache Elisp dependencies
+        uses: actions/cache@v4
+        with:
+          path: .cask
+          key: ${{ runner.os }}-cask-29.4-${{ hashFiles('Cask') }}
+          restore-keys: |
+            ${{ runner.os }}-cask-29.4-
 
       - name: Install server build dependencies
         run: |
@@ -111,6 +127,14 @@ jobs:
 
       - name: Install Cask
         run: git clone https://github.com/cask/cask ~/.cask
+
+      - name: Cache Elisp dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cask
+          key: ${{ runner.os }}-cask-${{ hashFiles('Cask') }}
+          restore-keys: |
+            ${{ runner.os }}-cask-
 
       - name: Compile epdfinfo server
         run: |
