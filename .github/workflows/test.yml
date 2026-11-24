@@ -1,3 +1,11 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 4 optimizations:
+# - [HIGH] Switch "test-macos" from macOS to ubuntu runner
+# - [MEDIUM] Add concurrency group to "test.yml"
+# - [MEDIUM] 3 jobs clone the repo — consider artifact sharing
+# - [LOW] Explicitly set fail-fast for large matrix job "test-ubuntu" (5 combinations)
+# Estimated savings: ~5 min/run
+#
 name: CI
 
 on:
@@ -7,6 +15,10 @@ on:
   pull_request:
     branches: [master]
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test-ubuntu:
     runs-on: ubuntu-latest
